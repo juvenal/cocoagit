@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		317DA6930F69B0A50074A3B1 /* GITPackReverseIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 57E65C600F4A07AA00EB5DB8 /* GITPackReverseIndex.m */; };
+		317DA69C0F69B0BB0074A3B1 /* GITBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F33C9EA0E48C5650004CD44 /* GITBranch.m */; };
 		319B44480F1128BB00336E0A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 319B44470F1128BB00336E0A /* CoreServices.framework */; };
 		319B450F0F112E5500336E0A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 319B42E00F10526A00336E0A /* Foundation.framework */; };
 		319B45140F112FD300336E0A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 319B44120F10551300336E0A /* CoreFoundation.framework */; };
@@ -1281,6 +1283,7 @@
 			files = (
 				319B45A20F116E9500336E0A /* GITErrors.m in Sources */,
 				319B45A40F116E9500336E0A /* NSData+Compression.m in Sources */,
+				317DA6930F69B0A50074A3B1 /* GITPackReverseIndex.m in Sources */,
 				319B45A50F116E9500336E0A /* NSData+Hashing.m in Sources */,
 				319B45A60F116E9500336E0A /* NSData+Searching.m in Sources */,
 				319B45A70F116E9500336E0A /* GITBlob.m in Sources */,
@@ -1298,6 +1301,7 @@
 				319B45B30F116E9500336E0A /* GITFileStore.m in Sources */,
 				319B45B40F116E9500336E0A /* GITPackStore.m in Sources */,
 				319B45B50F116E9500336E0A /* GITCombinedStore.m in Sources */,
+				317DA69C0F69B0BB0074A3B1 /* GITBranch.m in Sources */,
 				319B45B60F116E9500336E0A /* GITPackFile.m in Sources */,
 				319B45B70F116E9500336E0A /* GITPackFileVersion2.m in Sources */,
 				319B45B80F116E9500336E0A /* GITPackIndex.m in Sources */,
