@@ -7,20 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TCPServer.h"
+#import "GITSocket.h"
 
 @class GITServer;
 
 @interface GITServer : NSObject {
-	TCPServer *tcpServer;
-	NSString *workingDir;
+	GITSocket	*socket;
+	NSString	*workingDir;
 	
 	unsigned short listen_port;
 }
 
 @property(copy, readwrite) NSString *workingDir;
 
-- (BOOL) shouldExit;
-- (oneway void) startListening:(NSString *) gitStartDir;
+- (void) startListening:(NSString *) gitStartDir;
 
 @end

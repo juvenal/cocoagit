@@ -8,8 +8,6 @@
 
 #import "GITFetchProcess.h"
 
-
-
 @implementation GITFetchProcess
 
 // -transport startFetch

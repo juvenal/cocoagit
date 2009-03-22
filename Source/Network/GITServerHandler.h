@@ -9,17 +9,14 @@
 #include <CommonCrypto/CommonDigest.h>
 #import "GITRepo.h"
 #import "GITObject.h"
+#import "GITSocket.h"
 
 @interface GITServerHandler : NSObject {
 	NSString *workingDir;
 
-	// use SmallSockets library?
-	//BufferedSocket *gitSocket;
-	
-	NSInputStream *inStream;
-	NSOutputStream *outStream;
-	GITRepo *gitRepo;
-	NSString *gitPath;
+	GITSocket	*gitSocket;
+	GITRepo		*gitRepo;
+	NSString	*gitPath;
 
 	NSMutableArray *refsRead;
 	NSMutableArray *needRefs;
@@ -30,10 +27,9 @@
 
 @property(copy, readwrite) NSString *workingDir;
 
-@property(retain, readwrite) NSInputStream *inStream;	
-@property(retain, readwrite) NSOutputStream *outStream;	
-@property(retain, readwrite) GITRepo *gitRepo;
-@property(retain, readwrite) NSString *gitPath;
+@property(retain, readwrite) GITSocket	*gitSocket;
+@property(retain, readwrite) GITRepo	*gitRepo;
+@property(retain, readwrite) NSString	*gitPath;
 
 @property(copy, readwrite) NSMutableArray *refsRead;
 @property(copy, readwrite) NSMutableArray *needRefs;
@@ -42,19 +38,20 @@
 @property(assign, readwrite) int capabilitiesSent;
 
 
-- (void) initWithGit:(GITRepo *)git gitPath:(NSString *)gitRepoPath input:(NSInputStream *)streamIn output:(NSOutputStream *)streamOut;
+- (void) initWithGit:(GITRepo *)git gitPath:(NSString *)gitRepoPath withSocket:(GITSocket *)gSocket;
 - (void) handleRequest;
 
 - (void) uploadPack:(NSString *)repositoryName;
 - (void) receiveNeeds;
 - (void) uploadPackFile;
-- (void) sendNack;
 - (void) sendPackData;
 
 - (void) receivePack:(NSString *)repositoryName;
 - (void) gatherObjectShasFromCommit:(NSString *)shaValue;
 - (void) gatherObjectShasFromTree:(NSString *)shaValue;
 - (void) respondPack:(uint8_t *)buffer length:(int)size checkSum:(CC_SHA1_CTX *)checksum;
+
+- (void) sendNack;
 
 - (void) sendRefs;
 - (void) sendRef:(NSString *)refName sha:(NSString *)shaString;
@@ -74,12 +71,5 @@
 - (void) unpackObject;
 
 - (void) longVal:(uint32_t)raw toByteBuffer:(uint8_t *)buffer;
-- (void) packetFlush;
-- (NSString *) packetReadLine;
-
-- (void) sendString:(NSString*)string;
-- (void) sendStringWithLengthHeader:(NSString*)string;
-- (void) sendData:(NSData *)data;
-- (void) sendDataWithLengthHeader:(NSData *)data;
 
 @end

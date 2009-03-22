@@ -13,13 +13,13 @@ int main (int argc, const char * argv[]) {
 	
     NSString * path = [args objectAtIndex:1];
     GITServer *server = [[GITServer alloc] init];
+	
+	NSLog(@"start listening");
+	
 	[server startListening:path];
-	
-	do {
-		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-	} while (![server shouldExit]);
-	
-	
+
+	NSLog(@"end listening");
+
     [pool drain];
     return 0;
 }

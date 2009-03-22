@@ -29,6 +29,7 @@
 #import "GITTreeEntry.h"
 #import "GITServerHandler.h"
 #import "GITUtilityBelt.h"
+#import "GITSocket.h"
 #import "NSData+Compression.h"
 #include <zlib.h>
 #include <CommonCrypto/CommonDigest.h>
@@ -37,8 +38,7 @@
 
 @synthesize workingDir;
 
-@synthesize inStream;
-@synthesize outStream;
+@synthesize gitSocket;
 @synthesize gitRepo;
 @synthesize gitPath;
 
@@ -48,19 +48,19 @@
 
 @synthesize capabilitiesSent;
 
-- (void) initWithGit:(GITRepo *)git gitPath:(NSString *)gitRepoPath input:(NSInputStream *)streamIn output:(NSOutputStream *)streamOut
+- (void) initWithGit:(GITRepo *)git gitPath:(NSString *)gitRepoPath withSocket:(GITSocket *)gSocket
 {
 	gitRepo		= git;
 	gitPath 	= gitRepoPath;
-	inStream	= streamIn;
-	outStream	= streamOut;
+	gitSocket	= gSocket;
+	NSLog(@"HANDLING REQUEST");
 	[self handleRequest];
+	NSLog(@"REQUEST HANDLED");
 }
 
 - (void) dealloc;
 {
-	[inStream release];
-	[outStream release];
+	[gitSocket release];
 	[refsRead release];
 	[needRefs release];
 	[refDict release];
@@ -92,7 +92,7 @@
 - (void) handleRequest {
 	NSLog(@"HANDLE REQUEST");
 	NSString *header, *command, *repository, *repo, *hostpath;
-	header = [self packetReadLine];
+	header = [gitSocket readPacketLine];
 	
 	NSArray *values = [header componentsSeparatedByString:@" "];
 	command		= [values objectAtIndex: 0];			
@@ -118,6 +118,7 @@
 	} else if ([command isEqualToString: @"git-upload-pack"]) {	// git fetch //
 		[self uploadPack:repository];
 	}	
+	NSLog(@"REQUEST HANDLED");
 }
 
 /*** UPLOAD-PACK FUNCTIONS ***/
@@ -126,9 +127,6 @@
 	[self sendRefs];
 	[self receiveNeeds];
 	[self uploadPackFile];
-	NSLog(@"out:%@", outStream);	
-	NSLog(@"out avail:%d", [outStream hasSpaceAvailable]);
-	NSLog(@" in avail:%d", [inStream  hasBytesAvailable]);
 }
 
 - (void) receiveNeeds
@@ -140,7 +138,7 @@
 	
 	NSMutableArray *nRefs = [[NSMutableArray alloc] init];
 	
-	while ((data = [self packetReadLine]) && (![data isEqualToString:@"done\n"])) {
+	while ((data = [gitSocket readPacketLine]) && (![data isEqualToString:@"done\n"])) {
     NSLog(@"packet: %@ => %@", data, [data dataUsingEncoding:NSASCIIStringEncoding]);
 		if([data length] > 40) {
 			NSLog(@"data line: %@", data);
@@ -160,7 +158,7 @@
 	[nRefs release];
 	
 	NSLog(@"sending nack");
-	[self sendNack];
+	[gitSocket packetFlush];
 }
 
 - (void) uploadPackFile
@@ -264,14 +262,14 @@
 	unsigned char finalSha[20];
 	CC_SHA1_Final(finalSha, &checksum);
 	
-	[outStream write:finalSha maxLength:20];
+	[gitSocket writePacket:[NSData dataWithBytes:finalSha length:20]];
 	NSLog(@"end sent");
 }
 
 - (void) respondPack:(uint8_t *)buffer length:(int)size checkSum:(CC_SHA1_CTX *)checksum 
 {
 	CC_SHA1_Update(checksum, buffer, size);
-	[outStream write:buffer maxLength:size];
+	[gitSocket writePacket:[NSData dataWithBytes:checksum length:size]];
 }
 
 - (void) longVal:(uint32_t)raw toByteBuffer:(uint8_t *)buffer
@@ -289,7 +287,7 @@
 	if(commit) {
 		[refDict setObject:@"_commit" forKey:shaValue];
 		
-		NSLog(@"GATHER COMMIT SHAS: %@", shaValue);
+		//NSLog(@"GATHER COMMIT SHAS: %@", shaValue);
 		
 		// add the tree objects
 		[self gatherObjectShasFromTree:[commit treeSha1]];
@@ -298,16 +296,18 @@
 		
 		NSEnumerator *e = [parents objectEnumerator];
 		while ( (parentSha = [e nextObject]) ) {
-			NSLog(@"parent sha:%@", parentSha);
-			// TODO : check that refDict does not have this
-			[self gatherObjectShasFromCommit:parentSha];
+			//NSLog(@"parent sha:%@", parentSha);
+			// check that we have not already traversed this commit
+			if (![refDict valueForKey:parentSha]) {
+				[self gatherObjectShasFromCommit:parentSha];
+			}
 		}
 	}
 }
 
 - (void) gatherObjectShasFromTree:(NSString *)shaValue 
 {
-	NSLog(@"GATHER TREE SHAS: %@", shaValue);
+	//NSLog(@"GATHER TREE SHAS: %@", shaValue);
 
 	GITTree *tree = [gitRepo treeWithSha1:shaValue];
 	[refDict setObject:@"/" forKey:shaValue];
@@ -321,18 +321,20 @@
 		mode = [entry mode];
 		name = [entry name];
 		sha = [entry sha1];
-		[refDict setObject:name forKey:sha];
-		if (mode == 40000) { // tree
-			// TODO : check that refDict does not have this
-			[self gatherObjectShasFromTree:sha];
-		}		
+		if (![refDict valueForKey:sha]) {
+			[refDict setObject:name forKey:sha];
+			if (mode == 40000) { // tree
+				// TODO : check that refDict does not have this
+				[self gatherObjectShasFromTree:sha];
+			}
+		}
 	}	
 }
 
 
 - (void) sendNack
 {
-	[self sendString:@"0007NAK"];
+	[gitSocket packetWithString:@"0007NAK"];
 }
 
 
@@ -356,7 +358,7 @@
 	[self readRefs];
 	[self readPack];
 	[self writeRefs];
-	[self packetFlush];
+	[gitSocket packetFlush];
 }
 
 - (void) sendRefs {
@@ -377,7 +379,7 @@
 	// send capabilities and null sha to client if no refs //
 	if(!capabilitiesSent)
 		[self sendRef:@"capabilities^{}" sha:NULL_SHA];
-	[self packetFlush];
+	[gitSocket packetFlush];
 }
 
 - (void) sendRef:(NSString *)refName sha:(NSString *)shaString {
@@ -398,7 +400,7 @@
     @"\n"
   dataUsingEncoding:NSUTF8StringEncoding]];
   
-  [self sendDataWithLengthHeader:sendData];
+  [gitSocket sendDataWithLengthHeader:sendData];
   
 	[sendData release];
 	capabilitiesSent = 1;
@@ -407,7 +409,7 @@
 - (void) readRefs {
 	NSString *data, *old, *new, *refName, *cap, *refStuff;
 	NSLog(@"read refs");
-	data = [self packetReadLine];
+	data = [gitSocket readPacketLine];
 	NSMutableArray *refs = [[NSMutableArray alloc] init];
 	while([data length] > 0) {
 		
@@ -428,7 +430,7 @@
 		/* DEBUGGING */
 		NSLog(@"ref: [%@ : %@ : %@ : %@]", old, new, refName, cap);
 		
-		data = [self packetReadLine];
+		data = [gitSocket readPacketLine];
 	}
 	
 	[self setRefsRead:refs];
@@ -449,21 +451,24 @@
 	}
 	
 	// receive and process checksum
-	uint8_t checksum[20];
-	[inStream read:checksum maxLength:20];
+	NSMutableData *checksum = [gitSocket readData:20];
+	NSLog(@"checksum: %@", checksum);
 } 
 
 - (void) unpackObject {	
 	// read in the header
 	int size, type, shift;
 	uint8_t byte[1];
-	[inStream read:byte maxLength:1];
+	
+	NSMutableData *header = [gitSocket readData:1];
+	[header getBytes:byte length:1];
 	
 	size = byte[0] & 0xf;
 	type = (byte[0] >> 4) & 7;
 	shift = 4;
 	while((byte[0] & 0x80) != 0) {
-		[inStream read:byte maxLength:1];
+		header = [gitSocket readData:1];
+		[header getBytes:byte length:1];
         size |= ((byte[0] & 0x7f) << shift);
         shift += 7;
 	}
@@ -624,9 +629,8 @@
 - (NSString *) readServerSha 
 {
 	NSLog(@"read server sha");
-	uint8_t rawsha[20];
-	[inStream read:rawsha maxLength:20];
-	return unpackSHA1FromData(bytesToData(rawsha, 20));
+	NSMutableData *rawSha = [gitSocket readData:20];
+	return unpackSHA1FromData(rawSha);
 }
 
 - (NSString *) typeString:(int)type {
@@ -660,8 +664,8 @@
 	int status;
 	
 	uint8_t	buffer[2];
-	[inStream read:buffer maxLength:1];
-	
+	[gitSocket readInto:buffer length:1];
+
 	z_stream strm;
 	strm.next_in = buffer;
 	strm.avail_in = 1;
@@ -689,7 +693,7 @@
 		}
 		
 		if(!done) {
-			[inStream read:buffer maxLength:1];			
+			[gitSocket readInto:buffer length:1];
 			strm.next_in = buffer;
 			strm.avail_in = 1;
 		}
@@ -709,9 +713,9 @@
 	
 	uint8_t inSig[4], inVer[4], inEntries[4];
 	uint32_t version, entries;
-	[inStream read:inSig maxLength:4];
-	[inStream read:inVer maxLength:4];
-	[inStream read:inEntries maxLength:4];
+	[gitSocket readInto:inSig length:4];
+	[gitSocket readInto:inVer length:4];
+	[gitSocket readInto:inEntries length:4];
 	
 	entries = (inEntries[0] << 24) | (inEntries[1] << 16) | (inEntries[2] << 8) | inEntries[3];
 	version = (inVer[0] << 24) | (inVer[1] << 16) | (inVer[2] << 8) | inVer[3];
@@ -730,7 +734,7 @@
 	NSArray *thisRef;
 	NSString *toSha, *refName, *sendOk;
 	
-	[self sendStringWithLengthHeader:@"unpack ok\n"];
+	[gitSocket writePacketLine:@"unpack ok\n"];
 	
 	while ( (thisRef = [e nextObject]) ) {
 		NSLog(@"ref: %@", thisRef);
@@ -738,91 +742,9 @@
 		refName = [thisRef objectAtIndex:2];
 		[gitRepo updateRef:refName toSha:toSha];
 		sendOk = [NSString stringWithFormat:@"ok %@\n", refName];
-		[self sendStringWithLengthHeader:sendOk];
+		[gitSocket writePacketLine:sendOk];
 	}	
 }
 
-
-/*** NETWORK FUNCTIONS ***/
-
-- (void) packetFlush {
-	[self sendString:@"0000"];
-}
-
-- (void) sendString:(NSString*)string {
-  [self sendData:[string dataUsingEncoding:NSUTF8StringEncoding]];
-}
-
-- (void) sendStringWithLengthHeader:(NSString*)string {
-  [self sendDataWithLengthHeader:[string dataUsingEncoding:NSUTF8StringEncoding]];
-}
-
-- (void) sendData:(NSData *)data {
-  [outStream write:[data bytes] maxLength:[data length]];
-}
-
-#define hex(a) (hexchar[(a) & 15])
-- (void) sendDataWithLengthHeader:(NSData *)data {
-  // send length header
-  NSUInteger length = [data length] + 4;
-	static char hexchar[] = "0123456789abcdef";
-	uint8_t buffer[5];
-	
-	buffer[0] = hex(length >> 12);
-	buffer[1] = hex(length >> 8);
-	buffer[2] = hex(length >> 4);
-	buffer[3] = hex(length);
-	
-	NSLog(@"write len [%c %c %c %c]", buffer[0], buffer[1], buffer[2], buffer[3]);
-	[outStream write:buffer maxLength:4];	
-  
-  // send data
-  [self sendData: data];
-}
-
-
-- (NSString *) packetReadLine {
-	uint8_t linelen[4];
-	NSUInteger len = 0;
-	len = [inStream read:linelen maxLength:4];
-	
-	if(!len) {
-		if ([inStream streamStatus] != NSStreamStatusAtEnd)
-			NSLog(@"protocol error: read error");
-		return nil;
-	}
-	
-	int n;
-	len = 0;
-	for (n = 0; n < 4; n++) {
-		unsigned char c = linelen[n];
-		len <<= 4;
-		if (c >= '0' && c <= '9') {
-			len += c - '0';
-			continue;
-		}
-		if (c >= 'a' && c <= 'f') {
-			len += c - 'a' + 10;
-			continue;
-		}
-		if (c >= 'A' && c <= 'F') {
-			len += c - 'A' + 10;
-			continue;
-		}
-		NSLog(@"protocol error: bad line length character");
-	}
-	
-	if (!len)
-		return @"";
-	
-	len -= 4;
-	uint8_t data[len + 1];
-	
-	[inStream read:data maxLength:len];
-	data[len] = 0;
-	
-	NSString *packetLine = [[NSString alloc] initWithBytes:data length:len encoding:NSASCIIStringEncoding];
-	return [packetLine autorelease];
-}
 
 @end

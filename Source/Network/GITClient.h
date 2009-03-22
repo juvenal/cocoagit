@@ -7,17 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Socket.h"
+#import "GITSocket.h"
 
 @interface GITClient : NSObject {
-	Socket*	 	socket;
+	GITSocket*	 	gitSocket;
 }
 
-@property(retain, readwrite) Socket *socket;	
+@property(retain, readwrite) GITSocket *gitSocket;	
 
 - (BOOL) clone:(NSString *) url;
-- (void) sendPacket:(NSString *)dataWrite;
-- (void) writeServer:(NSString *)dataWrite;
-- (void) writeServerLength:(NSUInteger)length;
 
 @end

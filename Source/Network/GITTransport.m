@@ -102,113 +102,15 @@ NSString * const GITTransportClosed = @"GITTransportClosed";
     [self setStatus:GITTransportFetch];
 }
 
-- (NSData *) readPacket;
-{
-	NSMutableData *packetLen = [[self connection] readData:4];
-    NSData *nullPacket = [NSData dataWithBytes:"0000" length:4];
-    
-    if ([packetLen isEqualToData:nullPacket])
-        return [NSData dataWithBytes:"0" length:0];
-    
-    NSUInteger len = hexLengthToInt((NSData *)packetLen);
-    
-    // check for bad length
-    if (len < 0) {
-        NSLog(@"protocol error: bad length");
-        return nil;
-    }
-    
-    NSMutableData *packetData = [[self connection] readData:(int)len-4];
-    return [NSData dataWithData:packetData];
-}
-
-- (NSString *) readPacketLine;
-{
-    NSData *packetData = [self readPacket];
-    if (! (packetData && ([packetData length] > 0)))
-        return nil;
-    return [[[NSString alloc] initWithData:packetData encoding:NSASCIIStringEncoding] autorelease];
-}
-
-- (NSData *) packetByRemovingCapabilitiesFromPacket:(NSData *)data;
-{
-    NSRange refRange = [data rangeOfNullTerminatedBytesFrom:0];
-        
-    if (refRange.location == NSNotFound)
-        return data;
-    
-    return [data subdataToIndex:refRange.length-1];
-}
-
-- (NSString *) capabilitiesWithPacket:(NSData *)data;
-{
-    NSRange refRange = [data rangeOfNullTerminatedBytesFrom:0];
-        
-    if (refRange.location == NSNotFound)
-        return nil;
-        
-    NSUInteger capStart = refRange.length+1;
-    NSData *capData = [data subdataFromIndex:capStart];
- 
-    return [[[NSString alloc] initWithData:capData encoding:[NSString defaultCStringEncoding]] autorelease];
-}
-
-- (NSArray *) readPackets;
-{
-	NSMutableArray *packets = [NSMutableArray new];
-    NSData *packetData = [self readPacket];
-    
-    // extract capabilities string and remove '\0'
-    NSString *capabilities = [self capabilitiesWithPacket:packetData];
-    if (capabilities) {
-        packetData = [packetData subdataToIndex:([packetData length] - [capabilities length] - 1)];
-        NSLog(@"remote capabilities: %@", capabilities);
-    }
-        
-    while (packetData && [packetData length] > 0) {
-        [packets addObject:packetData];
-        packetData = [self readPacket];
-    }
-	
-    NSArray *thePackets = [NSArray arrayWithArray:packets];
-    [packets release];
-    return thePackets;
-}
-
-- (void) packetFlush;
-{
-    [[self connection] writeData:[NSData dataWithBytes:"0000" length:4]];
-}
-
-- (void) writePacket:(NSData *)thePacket;
-{
-    [[self connection] writeData:thePacket];
-}
-
-- (void) writePacketLine:(NSString *)packetLine;
-{
-    [self writePacket:[self packetWithString:packetLine]];
-}
-
-- (NSData *) packetWithString:(NSString *)line;
-{
-    NSUInteger len = [line length] + 4;
-    NSData *hexLength = intToHexLength(len);
-    NSMutableData *packetData = [NSMutableData dataWithCapacity:len];
-    [packetData appendData:hexLength];
-    [packetData appendData:[line dataUsingEncoding:NSUTF8StringEncoding]];
-    return [NSData dataWithData:packetData];
-}
-
 - (NSDictionary *) readPackHeader;
 {	
 	NSUInteger version, entries;
-
+	
     NSRange versionRange = NSMakeRange(4,4);
     NSRange entriesRange = NSMakeRange(8,4);
     
     NSData *header = [[self connection] readData:12];
-
+	
     uint32_t value;
     [header getBytes:&value range:versionRange];
     version = CFSwapInt32BigToHost(value);
@@ -217,7 +119,7 @@ NSString * const GITTransportClosed = @"GITTransportClosed";
     
     if (version != 2)
         return nil;
-
+	
     return [NSDictionary dictionaryWithObjectsAndKeys:header, @"data", [NSNumber numberWithUnsignedInt:entries], @"entries", nil];
 }
 
@@ -269,7 +171,7 @@ NSString * const GITTransportClosed = @"GITTransportClosed";
         [packData appendData:o];
         NSLog(@"read object #%d, size:%d", i, [o length]);
     }
-        
+	
     // read checksum
     NSData *checksum = [[self connection] readData:20];
     NSLog(@"checksum:\n%@", [checksum hexdump]);
@@ -289,9 +191,9 @@ NSString * const GITTransportClosed = @"GITTransportClosed";
     
     NSMutableData *d = [[self connection] readData:1];
 	[packData appendData:d];
-     
+	
     uint8_t *byte = (uint8_t *)[d mutableBytes];
-    	
+	
     type = (byte[0] >> 4) & 7;
     size = byte[0] & 15;
     shift = 4;
@@ -303,7 +205,7 @@ NSString * const GITTransportClosed = @"GITTransportClosed";
 		d = [[self connection] readData:1];
         [packData appendData:d];
         byte = (uint8_t *)[d mutableBytes];
-
+		
         size |= ((byte[0] & 0x7f) << shift);
         shift += 7;
 	}
@@ -337,7 +239,7 @@ NSString * const GITTransportClosed = @"GITTransportClosed";
             NSAssert(NO, @"Bad Object Type");
             break;
     }
-            
+	
     [packData appendData:compressed];
     [compressed release];
     

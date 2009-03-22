@@ -9,47 +9,35 @@
 #import "GITServer.h"
 #import "GITServerHandler.h"
 #import "GITRepo.h"
+#import "GITSocket.h"
 
 @implementation GITServer
 
 @synthesize workingDir;
 
-- (BOOL) shouldExit {
-	return false;
-}
-
-- (oneway void) startListening:(NSString *) gitStartDir {
+- (void) startListening:(NSString *) gitStartDir {
 	uint16_t port = 9418;
 	
 	workingDir = gitStartDir;
-	
-	tcpServer = [[TCPServer alloc] init];
-	NSError *error = nil;
-	[tcpServer setPort: port];
-	[tcpServer setDelegate: self];
-	if (![tcpServer start:&error] ) {
-		NSLog(@"Error starting server: %@", error);
-	} else {
-		NSLog(@"Starting server on port %d", [tcpServer port]);
-	}	
-}
-
-- (void)TCPServer:(TCPServer *)server didReceiveConnectionFromAddress:(NSData *)addr inputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream {
-	NSLog(@"New connection received...");
-		
-	NSLog(@"gitdir:%@", workingDir);
-	
-	[outStream open];
-	[inStream  open];
-	
 	GITRepo* git = [GITRepo alloc];
 	GITServerHandler *obsh = [[GITServerHandler alloc] init];
-	
-	NSLog(@"INIT WITH GIT:  %@ : %@ : %@ : %@ : %@", obsh, git, workingDir, inStream, outStream);
-	[obsh initWithGit:git gitPath:workingDir input:inStream output:outStream];	
 
-	[outStream close];
-	[inStream  close];
+	NSLog(@"Connecting Socket");
+
+	socket = [[GITSocket alloc] init];
+	[socket listenOnPort:port];
+	
+	while(true) {
+		[socket acceptConnection];
+		
+		if([socket isConnected]) {
+			NSLog(@"INIT WITH GIT:  %@ : %@ : %@", obsh, git, workingDir);
+			[obsh initWithGit:git gitPath:workingDir withSocket:socket];	
+			NSLog(@"Server Handled");
+		}
+	}
+	
+	NSError *error = nil;
 }
 
 @end

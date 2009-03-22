@@ -35,14 +35,6 @@ extern NSString * const GITTransportClosed;
 // start fetch process
 - (void) startFetch;
 
-// packed I/O
-- (NSData *) readPacket;
-- (NSString *) readPacketLine;
-- (NSArray *) readPackets;
-- (NSData *) packetWithString:(NSString *)line;
-- (void) writePacket:(NSData *)thePacket;
-- (void) writePacketLine:(NSString *)packetLine;
-
 // pack I/O
 - (NSData *) readPackObject;
 - (NSData *) readPackObjects;
