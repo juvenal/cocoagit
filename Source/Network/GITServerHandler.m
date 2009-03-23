@@ -158,7 +158,7 @@
 	[nRefs release];
 	
 	NSLog(@"sending nack");
-	[gitSocket packetFlush];
+	[gitSocket writePacketLine:@"NAK"];
 }
 
 - (void) uploadPackFile
@@ -178,11 +178,12 @@
 		}
 	}
 	
-	NSLog(@"gathering shas");
+	//NSLog(@"gathering shas");
 	e    = [[self needRefs] objectEnumerator];
 	while ( (thisRef = [e nextObject]) ) {
 		command  = [thisRef objectAtIndex:0];
 		shaValue = [thisRef objectAtIndex:1];
+		//NSLog(@"getting SHA : %@", shaValue);
 		if([command isEqualToString:@"want"]) {
 			[self gatherObjectShasFromCommit:shaValue];
 		}
@@ -198,9 +199,7 @@
 	NSEnumerator *e;
 	
 	CC_SHA1_CTX checksum;
-	NSLog(@"sha1 crap");
 	CC_SHA1_Init(&checksum);
-	NSLog(@"sha1 crap");
 	
 	//NSArray *shas;
 	//shas = [refDict keysSortedByValueUsingSelector:@selector(compare:)];
@@ -230,7 +229,7 @@
 		obj = [gitRepo objectWithSha1:current];
 		size = [obj size];
 		btype = [GITObject objectTypeForString:[obj type]];
-		NSLog(@"curr:%@ %d %d", current, size, btype);
+		//NSLog(@"curr:%@ %d %d", current, size, btype);
 		
 		c = (btype << 4) | (size & 15);
 		size = (size >> 4);
@@ -269,7 +268,7 @@
 - (void) respondPack:(uint8_t *)buffer length:(int)size checkSum:(CC_SHA1_CTX *)checksum 
 {
 	CC_SHA1_Update(checksum, buffer, size);
-	[gitSocket writePacket:[NSData dataWithBytes:checksum length:size]];
+	[gitSocket writePacket:[NSData dataWithBytes:buffer length:size]];
 }
 
 - (void) longVal:(uint32_t)raw toByteBuffer:(uint8_t *)buffer
@@ -282,8 +281,13 @@
 
 - (void) gatherObjectShasFromCommit:(NSString *)shaValue 
 {
+	//NSLog(@"GATHER COMMIT SHAS");
+
 	NSString *parentSha;
 	GITCommit *commit = [gitRepo commitWithSha1:shaValue];
+
+	//NSLog(@"GATHER COMMIT SHAS");
+
 	if(commit) {
 		[refDict setObject:@"_commit" forKey:shaValue];
 		
@@ -324,7 +328,6 @@
 		if (![refDict valueForKey:sha]) {
 			[refDict setObject:name forKey:sha];
 			if (mode == 40000) { // tree
-				// TODO : check that refDict does not have this
 				[self gatherObjectShasFromTree:sha];
 			}
 		}
@@ -334,7 +337,7 @@
 
 - (void) sendNack
 {
-	[gitSocket packetWithString:@"0007NAK"];
+	[gitSocket packetWithString:@"NAK"];
 }
 
 

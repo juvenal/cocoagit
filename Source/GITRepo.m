@@ -169,6 +169,7 @@
 - (GITObject*)objectWithSha1:(NSString*)sha1 type:(GITObjectType)eType error:(NSError**)error
 {
     GITObjectType type; NSData * data;
+	NSLog(@"objectWithSha1");
     if (![self.store loadObjectWithSha1:sha1 intoData:&data type:&type error:error]) {
 		GITError(error, GITErrorObjectNotFound, NSLocalizedString(@"Object not found", @"GITErrorObjectNotFound"));
 		return nil;
@@ -285,14 +286,11 @@
 
 - (NSArray *) refs
 {
-	NSLog(@"getting refs");
 	NSMutableArray *refs = [[NSMutableArray alloc] init];
 	
 	NSString *tempRef, *thisSha, *thisRef;
 	NSString *refsPath = [self refsPath];
 	
-	NSLog(@"refs path: %@", refsPath);
-
 	NSFileManager *fm = [NSFileManager defaultManager];
 	BOOL isDir;
     if ([fm fileExistsAtPath:refsPath isDirectory:&isDir] && isDir) {
@@ -316,21 +314,15 @@
 		}
 	}
 
-    
-	NSLog(@"refs: %@", refs);
-	
     NSString *packedRefsPath = [self packedRefsPath];
-	NSLog(@"packed refs path: %@", packedRefsPath);
 
     if ([fm fileExistsAtPath:packedRefsPath]) {
-		NSLog(@"two");
 
         NSString *packedRefs = [[NSString alloc] initWithContentsOfFile:packedRefsPath
                                                                encoding:NSASCIIStringEncoding 
                                                                   error:nil];
         NSArray *packedRefLines = [packedRefs componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
         for (NSString *line in packedRefLines) {
-			NSLog(@"three: %@", line);
 			// TODO : Will need to handle annotated tags at some point (^)
             if ([line length] < 1 || [line hasPrefix:@"#"] || [line hasPrefix:@"^"]) {
                 continue;
@@ -339,17 +331,14 @@
             thisSha = [parts objectAtIndex:0];
             thisRef = [parts objectAtIndex:1];
 			if ([thisRef hasPrefix:@"ref:"]) {
-				// do something
+				// TODO: do something
 			} else {
 				[refs addObject:[self dictionaryWithRefName:thisRef sha:thisSha]];
 			}
         }
-		NSLog(@"four");
         [packedRefs release];
     }
     
-	NSLog(@"one");
-
     NSString *headRefContents = [[NSString alloc] initWithContentsOfFile:[self headRefPath]
                                                         encoding:NSASCIIStringEncoding 
                                                            error:nil];
@@ -368,16 +357,12 @@
         headRef = [self dictionaryWithRefName:@"HEAD" sha:headRefTemp];
     }
 
-	NSLog(@"refs: %@", refs);
-
     if (headRef) {
         [refs addObject:headRef];
     }
     
 	NSArray *refsCopy = [[refs copy] autorelease];
 	[refs release];
-	
-	NSLog(@"done: %@", refsCopy);
 
 	return refsCopy;
 }

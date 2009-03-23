@@ -116,6 +116,8 @@
 {
     NSError * undError = nil;
 
+	NSLog(@"load from packfile");
+	
 	if (lastReadPack != nil) {
 		if ([self.lastReadPack loadObjectWithSha1:sha1 intoData:data type:type error:&undError])
 			return YES;
@@ -125,11 +127,16 @@
 		}
 	}
 	
+	NSLog(@"load from packfile");
+
 	for (GITPackFile * pack in self.packFiles) {
-        if (pack == self.lastReadPack)
+    	NSLog(@"load from packfile %@", pack);
+		
+		if (pack == self.lastReadPack)
 			continue;
 		
 		if ([pack loadObjectWithSha1:sha1 intoData:data type:type error:&undError]) {
+			NSLog(@"load SHA from packfile %@", sha1);
 			self.lastReadPack = pack;
 			return YES;
 		}

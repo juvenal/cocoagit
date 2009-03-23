@@ -144,10 +144,12 @@ static const NSRange kGITPackFileObjectCountRange = { 8, 4 };
     }
     
     NSUInteger offset = [self.index packOffsetForSha1:sha1 error:error];
-    if (offset == NSNotFound)
+	
+	if (offset == NSNotFound)
         return NO;
 
     NSData *objData = [self unpackObjectAtOffset:offset type:objectType error:error];
+
     if (! objData)
         return NO;
     
@@ -196,7 +198,7 @@ static const NSRange kGITPackFileObjectCountRange = { 8, 4 };
 		case kGITPackFileTypeTree:
 		case kGITPackFileTypeTag:
 		case kGITPackFileTypeBlob:
-            objData = [[self.data subdataWithRange:NSMakeRange(offset, packedSize)] zlibInflate];
+			objData = [[self.data subdataWithRange:NSMakeRange(offset, packedSize)] zlibInflate];
             if (objData && type && (size != [objData length])) {
                 GITError(error, GITErrorObjectSizeMismatch, NSLocalizedString(@"Object size mismatch", @"GITErrorObjectSizeMismatch"));
                 return nil;
