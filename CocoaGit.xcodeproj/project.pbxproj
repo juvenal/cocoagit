@@ -49,6 +49,10 @@
 		31AF05420F157C7500F43D38 /* git-remote.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AF05410F157C7500F43D38 /* git-remote.m */; };
 		31E9B6190F76CCD90072F5C9 /* GITSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 31E9B6170F76CCD90072F5C9 /* GITSocket.h */; };
 		31E9B61A0F76CCD90072F5C9 /* GITSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E9B6180F76CCD90072F5C9 /* GITSocket.m */; };
+		31E9B87C0F7942DB0072F5C9 /* GITPackReceive.h in Headers */ = {isa = PBXBuildFile; fileRef = 31E9B87A0F7942DB0072F5C9 /* GITPackReceive.h */; };
+		31E9B87D0F7942DB0072F5C9 /* GITPackReceive.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E9B87B0F7942DB0072F5C9 /* GITPackReceive.m */; };
+		31E9B8E80F79491F0072F5C9 /* GITPackUpload.h in Headers */ = {isa = PBXBuildFile; fileRef = 31E9B8E60F79491F0072F5C9 /* GITPackUpload.h */; };
+		31E9B8E90F79491F0072F5C9 /* GITPackUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E9B8E70F79491F0072F5C9 /* GITPackUpload.m */; };
 		38A504600F5E4DF20072D8B1 /* NSData+Patching.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F57B96D0F35397500101EAC /* NSData+Patching.m */; };
 		38A504610F5E4DFA0072D8B1 /* NSData+Patching.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F57B96C0F35397500101EAC /* NSData+Patching.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38D2628D0F3A23E500683479 /* GITBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F33C9E90E48C5650004CD44 /* GITBranch.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -225,7 +229,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9F3694160EACF05500E6777B /* Git */;
+			remoteGlobalIDString = 9F3694160EACF05500E6777B;
 			remoteInfo = Git;
 		};
 		57A4311D0F6204E400E6B701 /* PBXContainerItemProxy */ = {
@@ -309,6 +313,10 @@
 		31AF05410F157C7500F43D38 /* git-remote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "git-remote.m"; path = "Source/Tools/git-remote.m"; sourceTree = "<group>"; };
 		31E9B6170F76CCD90072F5C9 /* GITSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GITSocket.h; sourceTree = "<group>"; };
 		31E9B6180F76CCD90072F5C9 /* GITSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GITSocket.m; sourceTree = "<group>"; };
+		31E9B87A0F7942DB0072F5C9 /* GITPackReceive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GITPackReceive.h; sourceTree = "<group>"; };
+		31E9B87B0F7942DB0072F5C9 /* GITPackReceive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GITPackReceive.m; sourceTree = "<group>"; };
+		31E9B8E60F79491F0072F5C9 /* GITPackUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GITPackUpload.h; sourceTree = "<group>"; };
+		31E9B8E70F79491F0072F5C9 /* GITPackUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GITPackUpload.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Git_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Git_Prefix.pch; sourceTree = "<group>"; };
 		5734D7050F4119690092523C /* GITTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GITTransport.h; sourceTree = "<group>"; };
 		5734D7060F4119690092523C /* GITTransport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GITTransport.m; sourceTree = "<group>"; };
@@ -653,6 +661,10 @@
 				578098220F44B6C30027B945 /* GITSshTransport.m */,
 				31E9B6170F76CCD90072F5C9 /* GITSocket.h */,
 				31E9B6180F76CCD90072F5C9 /* GITSocket.m */,
+				31E9B87A0F7942DB0072F5C9 /* GITPackReceive.h */,
+				31E9B87B0F7942DB0072F5C9 /* GITPackReceive.m */,
+				31E9B8E60F79491F0072F5C9 /* GITPackUpload.h */,
+				31E9B8E70F79491F0072F5C9 /* GITPackUpload.m */,
 			);
 			name = Network;
 			path = Source/Network;
@@ -1056,6 +1068,8 @@
 				578098230F44B6C30027B945 /* GITSshTransport.h in Headers */,
 				57E65C610F4A07AA00EB5DB8 /* GITPackReverseIndex.h in Headers */,
 				31E9B6190F76CCD90072F5C9 /* GITSocket.h in Headers */,
+				31E9B87C0F7942DB0072F5C9 /* GITPackReceive.h in Headers */,
+				31E9B8E80F79491F0072F5C9 /* GITPackUpload.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1371,6 +1385,8 @@
 				578098240F44B6C30027B945 /* GITSshTransport.m in Sources */,
 				57E65C620F4A07AA00EB5DB8 /* GITPackReverseIndex.m in Sources */,
 				31E9B61A0F76CCD90072F5C9 /* GITSocket.m in Sources */,
+				31E9B87D0F7942DB0072F5C9 /* GITPackReceive.m in Sources */,
+				31E9B8E90F79491F0072F5C9 /* GITPackUpload.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

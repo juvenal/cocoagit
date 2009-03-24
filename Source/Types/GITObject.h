@@ -16,6 +16,8 @@ typedef enum {
     GITObjectTypeTree    = 2,
     GITObjectTypeBlob    = 3,
     GITObjectTypeTag     = 4,
+    GITObjectTypeOfsDelta = 6,
+    GITObjectTypeRefDelta = 7,
 } GITObjectType;
 
 @class GITRepo;

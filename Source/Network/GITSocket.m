@@ -130,6 +130,12 @@
     return [NSData dataWithData:packetData];
 }
 
-
++ (void) longVal:(uint32_t)raw toByteBuffer:(uint8_t *)buffer
+{
+	buffer[3] = (raw >> 24);
+	buffer[2] = (raw >> 16);
+	buffer[1] = (raw >> 8);
+	buffer[0] = (raw);
+}
 
 @end

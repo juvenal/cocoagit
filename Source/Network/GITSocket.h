@@ -24,4 +24,6 @@
 - (void) sendDataWithLengthHeader:(NSData *)data;
 - (NSData *) packetWithString:(NSString *)line;
 
+- (void) longVal:(uint32_t)raw toByteBuffer:(uint8_t *)buffer;
+
 @end
