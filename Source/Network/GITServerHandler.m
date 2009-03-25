@@ -99,7 +99,7 @@
 - (void) uploadPack:(NSString *)repositoryName {
 	[self sendRefs];
 	[self receiveNeeds];
-	GITPackUpload *upload = [[GITPackReceive alloc] initWithGit:gitRepo socket:gitSocket refs:needRefs];
+	GITPackUpload *upload = [[GITPackUpload alloc] initWithGit:gitRepo socket:gitSocket refs:needRefs];
 	if([upload uploadPackFile])
 		[self updateRemoteRefs];
 }
@@ -119,7 +119,7 @@
 	NSMutableArray *nRefs = [[NSMutableArray alloc] init];
 	
 	while ((data = [gitSocket readPacketLine]) && (![data isEqualToString:@"done\n"])) {
-    NSLog(@"packet: %@ => %@", data, [data dataUsingEncoding:NSASCIIStringEncoding]);
+		//NSLog(@"packet: %@ => %@", data, [data dataUsingEncoding:NSASCIIStringEncoding]);
 		if([data length] > 40) {
 			NSLog(@"data line: %@", data);
 			

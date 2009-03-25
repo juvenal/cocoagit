@@ -53,6 +53,8 @@
 		31E9B87D0F7942DB0072F5C9 /* GITPackReceive.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E9B87B0F7942DB0072F5C9 /* GITPackReceive.m */; };
 		31E9B8E80F79491F0072F5C9 /* GITPackUpload.h in Headers */ = {isa = PBXBuildFile; fileRef = 31E9B8E60F79491F0072F5C9 /* GITPackUpload.h */; };
 		31E9B8E90F79491F0072F5C9 /* GITPackUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = 31E9B8E70F79491F0072F5C9 /* GITPackUpload.m */; };
+		31E9BA260F7A54380072F5C9 /* NSFileManager+DirHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 319B466F0F11AF6B00336E0A /* NSFileManager+DirHelper.m */; };
+		31E9BA270F7A54410072F5C9 /* NSFileManager+DirHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 319B466E0F11AF6B00336E0A /* NSFileManager+DirHelper.h */; };
 		38A504600F5E4DF20072D8B1 /* NSData+Patching.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F57B96D0F35397500101EAC /* NSData+Patching.m */; };
 		38A504610F5E4DFA0072D8B1 /* NSData+Patching.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F57B96C0F35397500101EAC /* NSData+Patching.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38D2628D0F3A23E500683479 /* GITBranch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F33C9E90E48C5650004CD44 /* GITBranch.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -648,8 +650,8 @@
 			isa = PBXGroup;
 			children = (
 				319B46650F11AF3600336E0A /* GITClient.h */,
-				319B46660F11AF3600336E0A /* GITClient.m */,
 				319B46670F11AF3600336E0A /* GITServer.h */,
+				319B46660F11AF3600336E0A /* GITClient.m */,
 				319B46680F11AF3600336E0A /* GITServer.m */,
 				319B46690F11AF3600336E0A /* GITServerHandler.h */,
 				319B466A0F11AF3600336E0A /* GITServerHandler.m */,
@@ -1035,6 +1037,7 @@
 				9F754EF10EAD224900788FFF /* GITBlob.h in Headers */,
 				9F754EF50EAD224C00788FFF /* GITCommit.h in Headers */,
 				9F754EF70EAD224D00788FFF /* GITDateTime.h in Headers */,
+				31E9BA270F7A54410072F5C9 /* NSFileManager+DirHelper.h in Headers */,
 				9F754EF90EAD225B00788FFF /* GITFileStore.h in Headers */,
 				9F754EFB0EAD225D00788FFF /* GITObject.h in Headers */,
 				9F754EFD0EAD225F00788FFF /* GITObjectStore.h in Headers */,
@@ -1348,6 +1351,7 @@
 				57E13E7D0EECF2C2003A3761 /* GITPlaceholderPackFile.m in Sources */,
 				57E13E7E0EECF2C2003A3761 /* GITPackFileVersion2.m in Sources */,
 				31AF04770F147E3D00F43D38 /* GITClient.m in Sources */,
+				31E9BA260F7A54380072F5C9 /* NSFileManager+DirHelper.m in Sources */,
 				31AF04780F147E3D00F43D38 /* GITServer.m in Sources */,
 				31AF04790F147E3D00F43D38 /* GITServerHandler.m in Sources */,
 				9F754EFA0EAD225C00788FFF /* GITFileStore.m in Sources */,

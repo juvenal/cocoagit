@@ -15,16 +15,16 @@
 @interface GITPackUpload : NSObject {
 	GITRepo		*gitRepo;
 	GITSocket	*gitSocket;
-	NSArray		*needRefs;
+	NSMutableArray		*needRefs;
 	NSMutableDictionary *refDict;
 }
 
 @property(retain, readwrite) GITSocket	*gitSocket;
 @property(retain, readwrite) GITRepo	*gitRepo;
-@property(copy, readwrite)	 NSArray	*needRefs;
+@property(copy, readwrite)	 NSMutableArray	*needRefs;
 @property(copy, readwrite) NSMutableDictionary *refDict;
 
-- (id) initWithGit:(GITRepo *)git socket:(GITSocket *)gSocket refs:(NSArray *) nRefs;
+- (id) initWithGit:(GITRepo *)gRepo socket:(GITSocket *)gSocket refs:(NSMutableArray *) nRefs;
 
 - (bool) uploadPackFile;
 - (void) sendPackData;

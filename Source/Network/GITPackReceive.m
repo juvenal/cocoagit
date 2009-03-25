@@ -15,7 +15,7 @@
 @synthesize gitRepo;
 
 - (id) initWithGit:(GITRepo *)git socket:(GITSocket *)gSocket;
-{
+{	
 	gitRepo = git;
 	gitSocket = gSocket;
 	return self;
@@ -80,6 +80,7 @@
 	
 	if((type == GITObjectTypeCommit) || (type == GITObjectTypeTree) || (type == GITObjectTypeBlob) || (type == GITObjectTypeTag)) {
 		NSData *objectData = [gitSocket readData:size];
+		NSLog(@"read: %d", size);
 		[gitRepo writeObject:objectData withType:[GITObject stringForObjectType:type] size:size];
 		// TODO : check saved delta objects
 	} else if ((type == GITObjectTypeRefDelta) || (type == GITObjectTypeOfsDelta)) {
@@ -87,6 +88,7 @@
 	} else {
 		NSLog(@"bad object type %d", type);
 	}
+	NSLog(@"UNPACKED");
 }
 
 - (void) unpackDeltified:(int)type size:(int)size {

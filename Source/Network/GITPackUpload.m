@@ -8,6 +8,7 @@
 
 #import "GITPackUpload.h"
 #import "GITUtilityBelt.h"
+#import "NSData+Compression.h"
 
 #define PACK_SIGNATURE 0x5041434b	/* "PACK" */
 #define PACK_VERSION 2
@@ -19,9 +20,9 @@
 @synthesize gitSocket;
 @synthesize refDict;
 
-- (id) initWithGit:(GITRepo *)git socket:(GITSocket *)gSocket refs:(NSArray *) nRefs;
+- (id) initWithGit:(GITRepo *)gRepo socket:(GITSocket *)gSocket refs:(NSMutableArray *) nRefs;
 {
-	gitRepo = git;
+	gitRepo = gRepo;
 	needRefs = nRefs;
 	gitSocket = gSocket;
 	return self;
@@ -76,15 +77,15 @@
 	// write pack header
 	NSLog(@"write pack header");
 	
-	[self longVal:htonl(PACK_SIGNATURE) toByteBuffer:buffer];
+	[GITSocket longVal:htonl(PACK_SIGNATURE) toByteBuffer:buffer];
 	NSLog(@"write sig [%d %d %d %d]", buffer[0], buffer[1], buffer[2], buffer[3]);
 	[self respondPack:buffer length:4 checkSum:&checksum];
 	
-	[self longVal:htonl(PACK_VERSION) toByteBuffer:buffer];
+	[GITSocket longVal:htonl(PACK_VERSION) toByteBuffer:buffer];
 	NSLog(@"write ver [%d %d %d %d]", buffer[0], buffer[1], buffer[2], buffer[3]);
 	[self respondPack:buffer length:4 checkSum:&checksum];
 	
-	[self longVal:htonl([refDict count]) toByteBuffer:buffer];
+	[GITSocket longVal:htonl([refDict count]) toByteBuffer:buffer];
 	NSLog(@"write len [%d %d %d %d]", buffer[0], buffer[1], buffer[2], buffer[3]);
 	[self respondPack:buffer length:4 checkSum:&checksum];
 	

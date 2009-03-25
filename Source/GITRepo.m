@@ -418,6 +418,7 @@
 	
 	// write object to file
 	shaStr = unpackSHA1FromData(bytesToData(rawsha, 20));
+	//NSLog(@"writing object %@", shaStr);
 	objectPath = [self pathForLooseObjectWithSha:shaStr];
 	//NSData *compress = [[NSData dataWithBytes:[object bytes] length:[object length]] compressedData];
 	NSData *compressedData = [object zlibDeflate];

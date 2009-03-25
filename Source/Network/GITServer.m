@@ -37,7 +37,7 @@
 		}
 	}
 	
-	NSError *error = nil;
+	//NSError *error = nil;
 }
 
 @end
