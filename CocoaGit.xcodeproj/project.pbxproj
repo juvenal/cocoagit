@@ -29,7 +29,7 @@
 		31AF01CB0F142FCF00F43D38 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 319B45C90F116F8E00336E0A /* libz.dylib */; };
 		31AF01CC0F142FD100F43D38 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 319B45CC0F116FD700336E0A /* libcrypto.dylib */; };
 		31AF01CF0F14302200F43D38 /* libSystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 319B46EA0F11CC7600336E0A /* libSystem.dylib */; };
-		31AF02BC0F14376400F43D38 /* SSH.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 31AF01AF0F142F7B00F43D38 /* SSH.dylib */; };
+		31AF02BC0F14376400F43D38 /* libSSH.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 31AF01AF0F142F7B00F43D38 /* libSSH.dylib */; };
 		31AF02C40F1437C200F43D38 /* SSHConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 31AF018C0F142D7A00F43D38 /* SSHConnection.h */; };
 		31AF02C50F1437C200F43D38 /* SSHConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 31AF018D0F142D7A00F43D38 /* SSHConnection.m */; };
 		31AF03E30F14778D00F43D38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 319B42E00F10526A00336E0A /* Foundation.framework */; };
@@ -120,7 +120,7 @@
 		57A431380F62058E00E6B701 /* GHUnit.framework in Copy private frameworks */ = {isa = PBXBuildFile; fileRef = 57A4308F0F613C1000E6B701 /* GHUnit.framework */; };
 		57D81B2A0F419199002A571C /* NSData+HexDump.h in Headers */ = {isa = PBXBuildFile; fileRef = 57D81B280F419199002A571C /* NSData+HexDump.h */; };
 		57D81B2B0F419199002A571C /* NSData+HexDump.m in Sources */ = {isa = PBXBuildFile; fileRef = 57D81B290F419199002A571C /* NSData+HexDump.m */; };
-		57D81B500F41960D002A571C /* SSH.dylib in Copy libSSH */ = {isa = PBXBuildFile; fileRef = 31AF01AF0F142F7B00F43D38 /* SSH.dylib */; };
+		57D81B500F41960D002A571C /* libSSH.dylib in Copy libSSH */ = {isa = PBXBuildFile; fileRef = 31AF01AF0F142F7B00F43D38 /* libSSH.dylib */; };
 		57D81BA80F4216BE002A571C /* GITFetchProcess.h in Headers */ = {isa = PBXBuildFile; fileRef = 57D81BA60F4216BE002A571C /* GITFetchProcess.h */; };
 		57D81BA90F4216BE002A571C /* GITFetchProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 57D81BA70F4216BE002A571C /* GITFetchProcess.m */; };
 		57D81BD20F424E53002A571C /* GITRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 57D81BD00F424E53002A571C /* GITRef.h */; };
@@ -277,7 +277,7 @@
 			dstPath = lib;
 			dstSubfolderSpec = 6;
 			files = (
-				57D81B500F41960D002A571C /* SSH.dylib in Copy libSSH */,
+				57D81B500F41960D002A571C /* libSSH.dylib in Copy libSSH */,
 			);
 			name = "Copy libSSH";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,7 +306,7 @@
 		31AF018C0F142D7A00F43D38 /* SSHConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSHConnection.h; path = Source/Utils/SSHConnection.h; sourceTree = "<group>"; };
 		31AF018D0F142D7A00F43D38 /* SSHConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSHConnection.m; path = Source/Utils/SSHConnection.m; sourceTree = "<group>"; };
 		31AF018E0F142D7A00F43D38 /* SSHConnectionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSHConnectionTest.m; path = Source/Utils/SSHConnectionTest.m; sourceTree = "<group>"; };
-		31AF01AF0F142F7B00F43D38 /* SSH.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = SSH.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		31AF01AF0F142F7B00F43D38 /* libSSH.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libSSH.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		31AF03C50F14770400F43D38 /* git-remote */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "git-remote"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31AF04C10F15710C00F43D38 /* AbstractSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractSocket.h; path = Source/Vendor/SmallSockets/AbstractSocket.h; sourceTree = "<group>"; };
 		31AF04C20F15710C00F43D38 /* AbstractSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AbstractSocket.m; path = Source/Vendor/SmallSockets/AbstractSocket.m; sourceTree = "<group>"; };
@@ -522,7 +522,7 @@
 			files = (
 				319B46F20F11CCCF00336E0A /* libSystem.dylib in Frameworks */,
 				319B46F50F11CD4D00336E0A /* libcrypto.dylib in Frameworks */,
-				31AF02BC0F14376400F43D38 /* SSH.dylib in Frameworks */,
+				31AF02BC0F14376400F43D38 /* libSSH.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -805,7 +805,7 @@
 		9FCAA3B60F166AB00024BEC8 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				31AF01AF0F142F7B00F43D38 /* SSH.dylib */,
+				31AF01AF0F142F7B00F43D38 /* libSSH.dylib */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1110,7 +1110,7 @@
 			);
 			name = SSH;
 			productName = libSSH;
-			productReference = 31AF01AF0F142F7B00F43D38 /* SSH.dylib */;
+			productReference = 31AF01AF0F142F7B00F43D38 /* libSSH.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		31AF03C40F14770400F43D38 /* git-remote */ = {
@@ -2189,6 +2189,372 @@
 			};
 			name = "Release-GC";
 		};
+		B854D5801061A16400ACD377 /* Application-Debug-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = "Application-Debug-GC";
+		};
+		B854D5811061A16400ACD377 /* Application-Debug-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DOCSET_BUNDLE_ID = com.manicpanda.CocoaGit;
+				DOXYGEN_CONFIG = Resources/doxygen.config;
+				DOXYGEN_PATH = /Applications/Doxygen.app/Contents/Resources/doxygen;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INTERNAL_DOCS = YES;
+				OUTPUT_DIRECTORY = Docs/CocoaGit.docset;
+				PRODUCT_NAME = Docs;
+			};
+			name = "Application-Debug-GC";
+		};
+		B854D5821061A16400ACD377 /* Application-Debug-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Foundation.framework/Headers/Foundation.h";
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks/";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/lib @executable_path";
+				OTHER_LDFLAGS = (
+					"-lcrypto",
+					"-lssl",
+					"-lz",
+					"-framework",
+					Foundation,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Git;
+			};
+			name = "Application-Debug-GC";
+		};
+		B854D5831061A16400ACD377 /* Application-Debug-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "UnitTests-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = UnitTests;
+			};
+			name = "Application-Debug-GC";
+		};
+		B854D5841061A16400ACD377 /* Application-Debug-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				EXECUTABLE_PREFIX = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = YES;
+				INSTALL_PATH = "@executable_path/../Frameworks/lib";
+				PREBINDING = NO;
+				PRODUCT_NAME = libSSH;
+			};
+			name = "Application-Debug-GC";
+		};
+		B854D5851061A16400ACD377 /* Application-Debug-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Foundation.framework/Headers/Foundation.h";
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-lcrypto",
+					"-lssl",
+					"-lz",
+					"-framework",
+					Foundation,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "git-inspect";
+			};
+			name = "Application-Debug-GC";
+		};
+		B854D5861061A16400ACD377 /* Application-Debug-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Foundation.framework/Headers/Foundation.h";
+				INSTALL_PATH = /usr/local/bin;
+				LD_RUNPATH_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"-lcrypto",
+					"-lssl",
+					"-lz",
+					"-framework",
+					Foundation,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "git-pack-inspect";
+			};
+			name = "Application-Debug-GC";
+		};
+		B854D5871061A16400ACD377 /* Application-Debug-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "git-server";
+			};
+			name = "Application-Debug-GC";
+		};
+		B854D5881061A16400ACD377 /* Application-Debug-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = "git-remote";
+			};
+			name = "Application-Debug-GC";
+		};
+		B854D5891061A17700ACD377 /* Application-Release-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = "Application-Release-GC";
+		};
+		B854D58A1061A17700ACD377 /* Application-Release-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DOCSET_BUNDLE_ID = com.manicpanda.CocoaGit;
+				DOXYGEN_CONFIG = Resources/doxygen.config;
+				DOXYGEN_PATH = /Applications/Doxygen.app/Contents/Resources/doxygen;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				INTERNAL_DOCS = NO;
+				OUTPUT_DIRECTORY = Docs/CocoaGit.docset;
+				PRODUCT_NAME = Docs;
+				ZERO_LINK = NO;
+			};
+			name = "Application-Release-GC";
+		};
+		B854D58B1061A17700ACD377 /* Application-Release-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks/";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/lib @executable_path";
+				OTHER_LDFLAGS = (
+					"-lcrypto",
+					"-lssl",
+					"-lz",
+					"-framework",
+					Foundation,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Git;
+				ZERO_LINK = NO;
+			};
+			name = "Application-Release-GC";
+		};
+		B854D58C1061A17700ACD377 /* Application-Release-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "UnitTests-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = UnitTests;
+			};
+			name = "Application-Release-GC";
+		};
+		B854D58D1061A17700ACD377 /* Application-Release-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				EXECUTABLE_PREFIX = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = YES;
+				INSTALL_PATH = "@executable_path/../Frameworks/lib";
+				PREBINDING = NO;
+				PRODUCT_NAME = libSSH;
+			};
+			name = "Application-Release-GC";
+		};
+		B854D58E1061A17700ACD377 /* Application-Release-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "git-inspect";
+				ZERO_LINK = NO;
+			};
+			name = "Application-Release-GC";
+		};
+		B854D58F1061A17700ACD377 /* Application-Release-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /usr/local/bin;
+				LD_RUNPATH_SEARCH_PATHS = ".. @loader_path @executable_path";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "git-pack-inspect";
+				ZERO_LINK = NO;
+			};
+			name = "Application-Release-GC";
+		};
+		B854D5901061A17700ACD377 /* Application-Release-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "git-server";
+			};
+			name = "Application-Release-GC";
+		};
+		B854D5911061A17700ACD377 /* Application-Release-GC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = "git-remote";
+			};
+			name = "Application-Release-GC";
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2224,8 +2590,10 @@
 			buildConfigurations = (
 				319B42D30F10518D00336E0A /* Debug */,
 				319B42D40F10518D00336E0A /* Debug-GC */,
+				B854D5871061A16400ACD377 /* Application-Debug-GC */,
 				319B42D50F10518D00336E0A /* Release */,
 				319B42D60F10518D00336E0A /* Release-GC */,
+				B854D5901061A17700ACD377 /* Application-Release-GC */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2235,8 +2603,10 @@
 			buildConfigurations = (
 				31AF01B00F142F8300F43D38 /* Debug */,
 				31AF01B10F142F8300F43D38 /* Debug-GC */,
+				B854D5841061A16400ACD377 /* Application-Debug-GC */,
 				31AF01B20F142F8300F43D38 /* Release */,
 				31AF01B30F142F8300F43D38 /* Release-GC */,
+				B854D58D1061A17700ACD377 /* Application-Release-GC */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2246,8 +2616,10 @@
 			buildConfigurations = (
 				31AF03C70F14770D00F43D38 /* Debug */,
 				31AF03C80F14770D00F43D38 /* Debug-GC */,
+				B854D5881061A16400ACD377 /* Application-Debug-GC */,
 				31AF03C90F14770D00F43D38 /* Release */,
 				31AF03CA0F14770D00F43D38 /* Release-GC */,
+				B854D5911061A17700ACD377 /* Application-Release-GC */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2257,8 +2629,10 @@
 			buildConfigurations = (
 				57A431150F6204BE00E6B701 /* Debug */,
 				57A431160F6204BE00E6B701 /* Debug-GC */,
+				B854D5831061A16400ACD377 /* Application-Debug-GC */,
 				57A431170F6204BE00E6B701 /* Release */,
 				57A431180F6204BE00E6B701 /* Release-GC */,
+				B854D58C1061A17700ACD377 /* Application-Release-GC */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2268,8 +2642,10 @@
 			buildConfigurations = (
 				9F2152FF0EA68DA7004C6188 /* Debug */,
 				9FE790340EFCA75B009003C0 /* Debug-GC */,
+				B854D5861061A16400ACD377 /* Application-Debug-GC */,
 				9F2153000EA68DA7004C6188 /* Release */,
 				9FE7903A0EFCA764009003C0 /* Release-GC */,
+				B854D58F1061A17700ACD377 /* Application-Release-GC */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2279,8 +2655,10 @@
 			buildConfigurations = (
 				9F3694190EACF05500E6777B /* Debug */,
 				9FE790320EFCA75B009003C0 /* Debug-GC */,
+				B854D5821061A16400ACD377 /* Application-Debug-GC */,
 				9F36941A0EACF05500E6777B /* Release */,
 				9FE790380EFCA764009003C0 /* Release-GC */,
+				B854D58B1061A17700ACD377 /* Application-Release-GC */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2290,8 +2668,10 @@
 			buildConfigurations = (
 				9F66F7E80EA112C400E7FAA9 /* Debug */,
 				9FE790360EFCA75B009003C0 /* Debug-GC */,
+				B854D5811061A16400ACD377 /* Application-Debug-GC */,
 				9F66F7E90EA112C400E7FAA9 /* Release */,
 				9FE7903C0EFCA764009003C0 /* Release-GC */,
+				B854D58A1061A17700ACD377 /* Application-Release-GC */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2301,8 +2681,10 @@
 			buildConfigurations = (
 				9FA4E0710E19A57700724E6B /* Debug */,
 				9FE790330EFCA75B009003C0 /* Debug-GC */,
+				B854D5851061A16400ACD377 /* Application-Debug-GC */,
 				9FA4E0720E19A57700724E6B /* Release */,
 				9FE790390EFCA764009003C0 /* Release-GC */,
+				B854D58E1061A17700ACD377 /* Application-Release-GC */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2312,8 +2694,10 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				9FE790310EFCA75B009003C0 /* Debug-GC */,
+				B854D5801061A16400ACD377 /* Application-Debug-GC */,
 				C01FCF5008A954540054247B /* Release */,
 				9FE790370EFCA764009003C0 /* Release-GC */,
+				B854D5891061A17700ACD377 /* Application-Release-GC */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
